@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-
 <title>Versus Trade Invest</title>
-
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
@@ -30,26 +28,18 @@ text-decoration:none;
 font-size:18px;
 }
 
-.hero{
+section{
+padding:40px;
 text-align:center;
-padding:60px;
 }
 
 .btn{
 background:#22c55e;
 padding:12px 20px;
-border-radius:5px;
-text-decoration:none;
+border:none;
+border-radius:6px;
 color:white;
-}
-
-.plan{
-background:#1e293b;
-padding:20px;
-margin:20px;
-border-radius:10px;
-width:250px;
-text-align:center;
+cursor:pointer;
 }
 
 .plans{
@@ -58,16 +48,23 @@ justify-content:center;
 flex-wrap:wrap;
 }
 
-footer{
-background:#020617;
-text-align:center;
+.plan{
+background:#1e293b;
 padding:20px;
-margin-top:40px;
+margin:15px;
+border-radius:10px;
+width:250px;
 }
 
-input{
+input,select{
 padding:10px;
 margin:5px;
+}
+
+footer{
+background:#020617;
+padding:20px;
+text-align:center;
 }
 
 .whatsapp{
@@ -88,8 +85,15 @@ padding:15px;
 border-radius:50%;
 }
 
-</style>
+.form{
+background:#1e293b;
+padding:20px;
+width:300px;
+margin:auto;
+border-radius:10px;
+}
 
+</style>
 </head>
 
 <body>
@@ -99,126 +103,157 @@ border-radius:50%;
 <h2>Versus Trade Invest</h2>
 
 <nav>
-<a href="#">Home</a>
 <a href="#trade">Trade</a>
 <a href="#plans">Plans</a>
+<a href="#login">Login</a>
+<a href="#deposit">Deposit</a>
 <a href="#wallet">Wallet</a>
-<a href="#">Login</a>
-<a href="#">Register</a>
 </nav>
 
 </header>
 
-<section class="hero">
+<section>
 
-<h1>Smart Crypto Trading Platform</h1>
+<h1>Welcome to Versus Trade Invest</h1>
+<p>Trade crypto charts and invest easily</p>
 
-<p>Invest in BTC / ETH / USDT and track live trading charts</p>
-
-<a class="btn">Start Investing</a>
+<a class="btn" href="#deposit">Start Investment</a>
 
 </section>
 
 <section id="trade">
 
-<h2 style="text-align:center;">Live Market Chart</h2>
+<h2>Live Crypto Chart</h2>
 
-<div class="tradingview-widget-container">
-<div id="tradingview_chart"></div>
+<div id="chart"></div>
 
 <script src="https://s3.tradingview.com/tv.js"></script>
 
 <script>
+
 new TradingView.widget({
-width:"100%",
-height:500,
 symbol:"BINANCE:BTCUSDT",
 interval:"15",
-timezone:"Asia/Kolkata",
 theme:"dark",
 style:"1",
-container_id:"tradingview_chart"
+width:"100%",
+height:500,
+container_id:"chart"
 });
-</script>
 
-</div>
+</script>
 
 </section>
 
 <section id="plans">
 
-<h2 style="text-align:center;">Investment Plans</h2>
+<h2>Investment Plans</h2>
 
 <div class="plans">
 
 <div class="plan">
-
 <h3>Starter</h3>
-
 <p>Investment ₹10,000</p>
-
 <p>Daily Profit 1%</p>
-
 </div>
 
 <div class="plan">
-
 <h3>Pro</h3>
-
 <p>Investment ₹50,000</p>
-
 <p>Daily Profit 2%</p>
-
 </div>
 
 <div class="plan">
-
 <h3>VIP</h3>
-
 <p>Investment ₹1,00,000</p>
-
 <p>Daily Profit 3%</p>
-
 </div>
 
 </div>
 
 </section>
 
-<section style="text-align:center; padding:40px;">
+<section id="login">
+
+<h2>Login / Register</h2>
+
+<div class="form">
+
+<input type="text" placeholder="Full Name"><br>
+<input type="email" placeholder="Email"><br>
+<input type="password" placeholder="Password"><br>
+
+<button class="btn">Register</button>
+
+<br><br>
+
+<input type="email" placeholder="Login Email"><br>
+<input type="password" placeholder="Password"><br>
+
+<button class="btn">Login</button>
+
+</div>
+
+</section>
+
+<section id="deposit">
+
+<h2>Deposit Funds</h2>
+
+<select id="payment">
+
+<option value="">Select Payment</option>
+<option value="upi">UPI</option>
+<option value="bank">Bank Transfer</option>
+
+</select>
+
+<div id="details"></div>
+
+<br>
+
+<input type="number" placeholder="Enter Amount">
+
+<br>
+
+<input type="text" placeholder="Enter UTR / Transaction ID">
+
+<br><br>
+
+<button class="btn">Submit Deposit</button>
+
+</section>
+
+<section>
 
 <h2>Profit Calculator</h2>
 
-<input type="number" id="amount" placeholder="Enter Amount">
+<input type="number" id="amount" placeholder="Enter Investment">
 
-<button onclick="calc()">Calculate</button>
+<button class="btn" onclick="calc()">Calculate</button>
 
-<p id="result"></p>
+<p id="profit"></p>
 
 </section>
 
-<section id="wallet" style="text-align:center; padding:40px;">
+<section id="wallet">
 
-<h2>Wallet</h2>
+<h2>User Wallet</h2>
 
 <p>Balance: ₹0</p>
 
 <table border="1" style="margin:auto">
 
 <tr>
-
 <th>Date</th>
 <th>Type</th>
 <th>Amount</th>
-
 </tr>
 
 <tr>
-
 <td>--</td>
 <td>Deposit</td>
 <td>0</td>
-
 </tr>
 
 </table>
@@ -227,36 +262,53 @@ container_id:"tradingview_chart"
 
 <footer>
 
-<p>Contact Us</p>
-
-<p>Call: +91 9519733515</p>
-
-<p>WhatsApp: +91 9519733515</p>
+<p>Call: +91 9876543210</p>
+<p>WhatsApp: +91 9876543210</p>
 
 <p>© 2026 Versus Trade Invest</p>
 
 </footer>
 
-<a class="whatsapp" href="https://wa.me/919519733515">W</a>
-
-<a class="call" href="tel:+919519733515">C</a>
+<a class="whatsapp" href="https://wa.me/919876543210">W</a>
+<a class="call" href="tel:+919876543210">C</a>
 
 <script>
 
+document.getElementById("payment").addEventListener("change",function(){
+
+let d=document.getElementById("details");
+
+if(this.value=="upi"){
+
+d.innerHTML="<p>Send payment to UPI ID:</p><h3>versustrade@upi</h3>";
+
+}
+
+else if(this.value=="bank"){
+
+d.innerHTML="<p>Bank: HDFC Bank<br>Account: 1234567890<br>IFSC: HDFC0001234</p>";
+
+}
+
+else{
+
+d.innerHTML="";
+
+}
+
+});
+
 function calc(){
 
-let amt=document.getElementById("amount").value;
+let a=document.getElementById("amount").value;
 
-let profit=amt*0.03;
+let p=a*0.03;
 
-document.getElementById("result").innerHTML=
-"Daily Profit = ₹"+profit;
+document.getElementById("profit").innerHTML="Daily Profit ₹"+p;
 
 }
 
 </script>
 
 </body>
-
-
 </html>
