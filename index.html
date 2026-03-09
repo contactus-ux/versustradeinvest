@@ -3,46 +3,35 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Crypto Trading Platform</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mobile Crypto Trading</title>
 
 <style>
 
 body{
+margin:0;
 font-family:Arial;
 background:#0f172a;
 color:white;
-margin:0;
 }
 
 header{
 background:#020617;
 padding:15px;
 text-align:center;
-font-size:22px;
+font-size:20px;
 font-weight:bold;
 }
 
 .container{
-display:flex;
-flex-wrap:wrap;
-gap:20px;
-padding:20px;
+padding:15px;
 }
 
-.box{
+.card{
 background:#1e293b;
-padding:20px;
+padding:15px;
 border-radius:10px;
-}
-
-#chart{
-flex:2;
-min-width:600px;
-}
-
-#trade,#deposit,#wallet{
-flex:1;
-min-width:280px;
+margin-bottom:15px;
 }
 
 input,select{
@@ -50,35 +39,40 @@ width:100%;
 padding:10px;
 margin-top:5px;
 margin-bottom:10px;
-border-radius:5px;
 border:none;
+border-radius:6px;
 }
 
 button{
+width:100%;
+padding:12px;
 background:#22c55e;
 border:none;
-padding:10px;
-border-radius:5px;
-width:100%;
+border-radius:6px;
 color:white;
 font-weight:bold;
-cursor:pointer;
 }
 
 button:hover{
 background:#16a34a;
 }
 
+#login{
+max-width:350px;
+margin:80px auto;
+}
+
+.chart{
+height:350px;
+}
+
 ul{
 font-size:14px;
 }
 
-.login{
-max-width:300px;
-margin:80px auto;
-background:#1e293b;
-padding:20px;
-border-radius:10px;
+.balance{
+font-size:18px;
+font-weight:bold;
 }
 
 </style>
@@ -87,56 +81,60 @@ border-radius:10px;
 <body>
 
 <header>
-Crypto Trading Platform
+Crypto Trading App
 </header>
 
 <!-- LOGIN -->
 
-<div id="loginPage" class="login">
+<div id="login">
 
-<h3>Login / Signup</h3>
+<div class="card">
 
-<input type="text" id="username" placeholder="Username">
+<h3>Login</h3>
 
-<input type="password" id="password" placeholder="Password">
+<input type="text" id="user" placeholder="Username">
 
-<button onclick="login()">Enter Platform</button>
+<input type="password" placeholder="Password">
 
-<p id="loginMsg"></p>
+<button onclick="login()">Login</button>
+
+<p id="msg"></p>
 
 </div>
 
-<!-- MAIN PLATFORM -->
+</div>
 
-<div id="platform" style="display:none">
+<!-- MAIN APP -->
+
+<div id="app" style="display:none">
 
 <div class="container">
 
-<!-- CHART -->
+<!-- WALLET -->
 
-<div class="box" id="chart">
+<div class="card">
 
-<h3>Market Chart</h3>
-
-<div id="tradingview_chart"></div>
+<div class="balance">
+Wallet Balance: ₹ <span id="balance">0</span>
+</div>
 
 </div>
 
-<!-- WALLET -->
+<!-- CHART -->
 
-<div class="box" id="wallet">
+<div class="card">
 
-<h3>Wallet</h3>
+<h3>Market Chart</h3>
 
-Balance: ₹ <span id="balance">0</span>
+<div id="chart" class="chart"></div>
 
 </div>
 
 <!-- TRADING -->
 
-<div class="box" id="trade">
+<div class="card">
 
-<h3>Option Trading</h3>
+<h3>Trade</h3>
 
 <label>Crypto Pair</label>
 
@@ -153,38 +151,44 @@ Balance: ₹ <span id="balance">0</span>
 <option>SELL</option>
 </select>
 
-<label>Amount (₹)</label>
+<label>Amount ₹</label>
 
 <input type="number" id="amount">
 
 <button onclick="trade()">Execute Trade</button>
 
-<p id="result"></p>
-
-<h4>Trade History</h4>
-
-<ul id="history"></ul>
+<p id="tradeMsg"></p>
 
 </div>
 
 <!-- DEPOSIT -->
 
-<div class="box" id="deposit">
+<div class="card">
 
-<h3>Deposit (UPI / Bank)</h3>
+<h3>Deposit</h3>
 
 <select>
 <option>UPI</option>
 <option>Bank Transfer</option>
 </select>
 
-<input type="number" id="depositAmount" placeholder="Amount ₹">
+<input type="number" id="depAmount" placeholder="Deposit Amount">
 
-<input type="text" placeholder="UPI ID / Ref Number">
+<input placeholder="UPI ID / Ref Number">
 
 <button onclick="deposit()">Submit Deposit</button>
 
-<p id="depositMsg"></p>
+<p id="depMsg"></p>
+
+</div>
+
+<!-- HISTORY -->
+
+<div class="card">
+
+<h3>Trade History</h3>
+
+<ul id="history"></ul>
 
 </div>
 
@@ -200,16 +204,19 @@ let balance=0;
 
 function login(){
 
-let user=document.getElementById("username").value;
+let user=document.getElementById("user").value;
 
 if(user==""){
-document.getElementById("loginMsg").innerText="Enter username";
+
+document.getElementById("msg").innerText="Enter username";
+
 return;
+
 }
 
-document.getElementById("loginPage").style.display="none";
+document.getElementById("login").style.display="none";
 
-document.getElementById("platform").style.display="block";
+document.getElementById("app").style.display="block";
 
 loadChart();
 
@@ -219,53 +226,53 @@ function loadChart(){
 
 new TradingView.widget({
 "width":"100%",
-"height":400,
+"height":350,
 "symbol":"BINANCE:BTCUSDT",
 "interval":"5",
 "theme":"dark",
 "style":"1",
-"container_id":"tradingview_chart"
+"container_id":"chart"
 });
 
 }
 
 function deposit(){
 
-let amount=parseFloat(document.getElementById("depositAmount").value);
+let amt=parseFloat(document.getElementById("depAmount").value);
 
-if(!amount)return;
+if(!amt)return;
 
-balance+=amount;
+balance+=amt;
 
 document.getElementById("balance").innerText=balance;
 
-document.getElementById("depositMsg").innerText="Deposit added successfully";
+document.getElementById("depMsg").innerText="Deposit successful";
 
 }
 
 function trade(){
 
-let amount=parseFloat(document.getElementById("amount").value);
-
-let type=document.getElementById("type").value;
+let amt=parseFloat(document.getElementById("amount").value);
 
 let pair=document.getElementById("pair").value;
 
-if(amount>balance){
+let type=document.getElementById("type").value;
 
-document.getElementById("result").innerText="Insufficient Balance";
+if(amt>balance){
+
+document.getElementById("tradeMsg").innerText="Insufficient Balance";
 
 return;
 
 }
 
-balance-=amount;
+balance-=amt;
 
 document.getElementById("balance").innerText=balance;
 
-let msg=type+" "+pair+" ₹"+amount;
+let msg=type+" "+pair+" ₹"+amt;
 
-document.getElementById("result").innerText="Trade Executed: "+msg;
+document.getElementById("tradeMsg").innerText="Trade executed";
 
 let li=document.createElement("li");
 
