@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mobile Crypto Trading</title>
+<title>Crypto Mobile Trading</title>
 
 <style>
 
@@ -23,8 +23,13 @@ font-size:20px;
 font-weight:bold;
 }
 
-.container{
+.page{
+display:none;
 padding:15px;
+}
+
+.active{
+display:block;
 }
 
 .card{
@@ -53,26 +58,30 @@ color:white;
 font-weight:bold;
 }
 
-button:hover{
-background:#16a34a;
-}
-
-#login{
-max-width:350px;
-margin:80px auto;
-}
-
-.chart{
-height:350px;
-}
-
-ul{
-font-size:14px;
-}
-
 .balance{
 font-size:18px;
 font-weight:bold;
+}
+
+.bottomNav{
+position:fixed;
+bottom:0;
+width:100%;
+background:#020617;
+display:flex;
+justify-content:space-around;
+padding:10px 0;
+}
+
+.bottomNav button{
+background:none;
+border:none;
+color:white;
+font-size:14px;
+}
+
+.chart{
+height:300px;
 }
 
 </style>
@@ -80,63 +89,39 @@ font-weight:bold;
 
 <body>
 
-<header>
-Crypto Trading App
-</header>
+<header>Crypto Trading App</header>
 
-<!-- LOGIN -->
+<!-- HOME -->
 
-<div id="login">
+<div id="home" class="page active">
 
 <div class="card">
-
-<h3>Login</h3>
-
-<input type="text" id="user" placeholder="Username">
-
-<input type="password" placeholder="Password">
-
-<button onclick="login()">Login</button>
-
-<p id="msg"></p>
-
+<h3>Welcome</h3>
+<p>Mobile Crypto Trading Platform</p>
 </div>
-
-</div>
-
-<!-- MAIN APP -->
-
-<div id="app" style="display:none">
-
-<div class="container">
-
-<!-- WALLET -->
 
 <div class="card">
-
 <div class="balance">
-Wallet Balance: ₹ <span id="balance">0</span>
+Wallet Balance ₹ <span id="balance">0</span>
+</div>
 </div>
 
 </div>
 
-<!-- CHART -->
+<!-- TRADE -->
+
+<div id="trade" class="page">
 
 <div class="card">
-
 <h3>Market Chart</h3>
-
 <div id="chart" class="chart"></div>
-
 </div>
-
-<!-- TRADING -->
 
 <div class="card">
 
 <h3>Trade</h3>
 
-<label>Crypto Pair</label>
+<label>Pair</label>
 
 <select id="pair">
 <option>BTC/USDT</option>
@@ -144,7 +129,7 @@ Wallet Balance: ₹ <span id="balance">0</span>
 <option>BNB/USDT</option>
 </select>
 
-<label>Trade Type</label>
+<label>Type</label>
 
 <select id="type">
 <option>BUY</option>
@@ -161,7 +146,25 @@ Wallet Balance: ₹ <span id="balance">0</span>
 
 </div>
 
+</div>
+
+<!-- WALLET -->
+
+<div id="wallet" class="page">
+
+<div class="card">
+
+<h3>Wallet</h3>
+
+Balance ₹ <span id="balance2">0</span>
+
+</div>
+
+</div>
+
 <!-- DEPOSIT -->
+
+<div id="deposit" class="page">
 
 <div class="card">
 
@@ -172,9 +175,9 @@ Wallet Balance: ₹ <span id="balance">0</span>
 <option>Bank Transfer</option>
 </select>
 
-<input type="number" id="depAmount" placeholder="Deposit Amount">
+<input type="number" id="depAmount" placeholder="Amount ₹">
 
-<input placeholder="UPI ID / Ref Number">
+<input placeholder="UPI ID / Reference">
 
 <button onclick="deposit()">Submit Deposit</button>
 
@@ -182,7 +185,11 @@ Wallet Balance: ₹ <span id="balance">0</span>
 
 </div>
 
+</div>
+
 <!-- HISTORY -->
+
+<div id="historyPage" class="page">
 
 <div class="card">
 
@@ -194,6 +201,20 @@ Wallet Balance: ₹ <span id="balance">0</span>
 
 </div>
 
+<!-- NAVIGATION -->
+
+<div class="bottomNav">
+
+<button onclick="showPage('home')">Home</button>
+
+<button onclick="showPage('trade')">Trade</button>
+
+<button onclick="showPage('wallet')">Wallet</button>
+
+<button onclick="showPage('deposit')">Deposit</button>
+
+<button onclick="showPage('historyPage')">History</button>
+
 </div>
 
 <script src="https://s3.tradingview.com/tv.js"></script>
@@ -202,37 +223,13 @@ Wallet Balance: ₹ <span id="balance">0</span>
 
 let balance=0;
 
-function login(){
+function showPage(page){
 
-let user=document.getElementById("user").value;
+let pages=document.querySelectorAll(".page");
 
-if(user==""){
+pages.forEach(p=>p.classList.remove("active"));
 
-document.getElementById("msg").innerText="Enter username";
-
-return;
-
-}
-
-document.getElementById("login").style.display="none";
-
-document.getElementById("app").style.display="block";
-
-loadChart();
-
-}
-
-function loadChart(){
-
-new TradingView.widget({
-"width":"100%",
-"height":350,
-"symbol":"BINANCE:BTCUSDT",
-"interval":"5",
-"theme":"dark",
-"style":"1",
-"container_id":"chart"
-});
+document.getElementById(page).classList.add("active");
 
 }
 
@@ -245,6 +242,8 @@ if(!amt)return;
 balance+=amt;
 
 document.getElementById("balance").innerText=balance;
+
+document.getElementById("balance2").innerText=balance;
 
 document.getElementById("depMsg").innerText="Deposit successful";
 
@@ -270,9 +269,9 @@ balance-=amt;
 
 document.getElementById("balance").innerText=balance;
 
-let msg=type+" "+pair+" ₹"+amt;
+document.getElementById("balance2").innerText=balance;
 
-document.getElementById("tradeMsg").innerText="Trade executed";
+let msg=type+" "+pair+" ₹"+amt;
 
 let li=document.createElement("li");
 
@@ -280,7 +279,19 @@ li.innerText=msg;
 
 document.getElementById("history").appendChild(li);
 
+document.getElementById("tradeMsg").innerText="Trade Executed";
+
 }
+
+new TradingView.widget({
+"width":"100%",
+"height":300,
+"symbol":"BINANCE:BTCUSDT",
+"interval":"5",
+"theme":"dark",
+"style":"1",
+"container_id":"chart"
+});
 
 </script>
 
