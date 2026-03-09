@@ -41,6 +41,7 @@ border-radius:5px;
 text-decoration:none;
 color:white;
 cursor:pointer;
+border:none;
 }
 
 .plan{
@@ -115,7 +116,7 @@ border-radius:50%;
 <section class="hero">
 
 <h1>Crypto Trading Platform</h1>
-<p>Trade and invest in BTC / ETH / USDT</p>
+<p>Trade and invest with BTC / ETH / USDT charts</p>
 
 <a class="btn" href="#deposit">Start Investment</a>
 
@@ -177,30 +178,24 @@ loadChart("BINANCE:BTCUSDT");
 <div class="plans">
 
 <div class="plan">
-
 <h3>Starter</h3>
 <p>Investment ₹10,000</p>
 <p>Daily Profit 1%</p>
 <a class="btn" href="#deposit">Invest</a>
-
 </div>
 
 <div class="plan">
-
 <h3>Pro</h3>
 <p>Investment ₹50,000</p>
 <p>Daily Profit 2%</p>
 <a class="btn" href="#deposit">Invest</a>
-
 </div>
 
 <div class="plan">
-
 <h3>VIP</h3>
 <p>Investment ₹1,00,000</p>
 <p>Daily Profit 3%</p>
 <a class="btn" href="#deposit">Invest</a>
-
 </div>
 
 </div>
@@ -209,27 +204,27 @@ loadChart("BINANCE:BTCUSDT");
 
 <section id="deposit">
 
-<h2 style="text-align:center;">Deposit Crypto</h2>
+<h2 style="text-align:center;">Deposit Funds</h2>
 
 <div style="text-align:center">
 
-<select>
-
-<option>Bitcoin (BTC)</option>
-<option>Ethereum (ETH)</option>
-<option>Tether (USDT)</option>
-
+<select id="payment">
+<option value="">Select Payment Method</option>
+<option value="upi">UPI Payment</option>
+<option value="bank">Bank Transfer</option>
 </select>
 
-<br>
-
-<input type="number" placeholder="Enter Amount">
+<div id="paymentDetails"></div>
 
 <br>
 
-<input type="text" placeholder="Enter Wallet Address">
+<input type="number" placeholder="Enter Deposit Amount">
 
-<br>
+<br><br>
+
+<input type="text" placeholder="Enter Transaction ID / UTR Number">
+
+<br><br>
 
 <button class="btn">Submit Deposit</button>
 
@@ -289,6 +284,38 @@ loadChart("BINANCE:BTCUSDT");
 
 <script>
 
+document.getElementById("payment").addEventListener("change",function(){
+
+let method=this.value;
+let details=document.getElementById("paymentDetails");
+
+if(method=="upi"){
+
+details.innerHTML=
+"<p>Send payment to UPI ID:</p>"+
+"<h3>versustrade@upi</h3>";
+
+}
+
+else if(method=="bank"){
+
+details.innerHTML=
+"<p>Bank Transfer Details:</p>"+
+"<p>Bank Name: HDFC Bank</p>"+
+"<p>Account Name: Versus Trade Invest</p>"+
+"<p>Account Number: 1234567890</p>"+
+"<p>IFSC Code: HDFC0001234</p>";
+
+}
+
+else{
+
+details.innerHTML="";
+
+}
+
+});
+
 function calc(){
 
 let amt=document.getElementById("amount").value;
@@ -303,5 +330,4 @@ document.getElementById("result").innerHTML=
 </script>
 
 </body>
-
 </html>
