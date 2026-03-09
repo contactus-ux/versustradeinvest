@@ -1,135 +1,96 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Versus Trade Invest</title>
 
+<script src="https://s3.tradingview.com/tv.js"></script>
+
 <style>
 
 body{
 margin:0;
-font-family:Arial;
-background:#0f172a;
+background:#0b0e11;
 color:white;
+font-family:Arial;
 }
 
-/* HEADER */
-
 header{
-background:#020617;
+background:#111;
 padding:15px;
 display:flex;
-align-items:center;
-justify-content:center;
-gap:10px;
+justify-content:space-between;
 }
 
 .logo{
-width:35px;
-height:35px;
-background:#22c55e;
-border-radius:50%;
-display:flex;
-align-items:center;
-justify-content:center;
 font-weight:bold;
-}
-
-.title{
 font-size:20px;
-font-weight:bold;
 }
 
-/* NAV */
+nav span{
+margin:10px;
+cursor:pointer;
+}
 
-nav{
-display:flex;
-justify-content:space-around;
-background:#020617;
+.container{
+display:grid;
+grid-template-columns:200px 1fr 300px;
+height:90vh;
+}
+
+/* MARKET */
+
+.market{
+background:#111;
 padding:10px;
-position:sticky;
-top:0;
+overflow:auto;
 }
 
-nav button{
-background:#1e293b;
-border:none;
-color:white;
+.market div{
 padding:10px;
-border-radius:6px;
-font-size:14px;
+border-bottom:1px solid #333;
 }
 
-/* SECTIONS */
+/* CHART */
 
-section{
+.chart{
+background:#000;
+}
+
+/* TRADE PANEL */
+
+.trade{
+background:#111;
 padding:15px;
-display:none;
 }
 
-.active{
-display:block;
-}
-
-/* CARDS */
-
-.card{
-background:#1e293b;
-padding:15px;
-border-radius:10px;
-margin-bottom:15px;
-}
-
-/* INPUTS */
-
-input,select{
+input{
 width:100%;
 padding:10px;
 margin-top:10px;
-border-radius:6px;
 border:none;
+border-radius:5px;
 }
 
-/* BUTTON */
-
-.main{
-background:#22c55e;
+.buy{
+background:#16c784;
 color:white;
-padding:12px;
-border:none;
-border-radius:8px;
+padding:10px;
 width:100%;
 margin-top:10px;
+border:none;
 }
 
-/* PRICE */
-
-.price{
-font-size:18px;
-margin-top:10px;
-}
-
-/* FOOTER */
-
-.footer{
-text-align:center;
-padding:20px;
-background:#020617;
-}
-
-.support{
-display:inline-block;
-padding:10px;
-margin:5px;
-border-radius:6px;
+.sell{
+background:#ea3943;
 color:white;
-text-decoration:none;
+padding:10px;
+width:100%;
+margin-top:10px;
+border:none;
 }
-
-.whatsapp{background:#25D366;}
-.call{background:#3b82f6;}
 
 </style>
 </head>
@@ -137,189 +98,81 @@ text-decoration:none;
 <body>
 
 <header>
-<div class="logo">VT</div>
-<div class="title">Versus Trade Invest</div>
-</header>
+
+<div class="logo">
+Versus Trade Invest
+</div>
 
 <nav>
-<button onclick="openPage('home')">Home</button>
-<button onclick="openPage('trade')">Trade</button>
-<button onclick="openPage('invest')">Invest</button>
-<button onclick="openPage('deposit')">Deposit</button>
-<button onclick="openPage('account')">Account</button>
+<span>Markets</span>
+<span>Trade</span>
+<span>Wallet</span>
+<span>Login</span>
 </nav>
 
-<!-- HOME -->
+</header>
 
-<section id="home" class="active">
+<div class="container">
 
-<div class="card">
-<h3>Live Crypto Market</h3>
+<!-- MARKET LIST -->
 
-<div class="price">BTC: $<span id="btc"></span></div>
-<div class="price">ETH: $<span id="eth"></span></div>
-<div class="price">USDT: $<span id="usdt"></span></div>
+<div class="market">
+
+<h3>Markets</h3>
+
+<div>BTC/USDT</div>
+<div>ETH/USDT</div>
+<div>SOL/USDT</div>
+<div>XRP/USDT</div>
 
 </div>
 
-<div class="card">
-<h3>Investment Plan</h3>
-<p>Invest ₹1,00,000 → Earn 3% Daily Profit</p>
+<!-- CHART -->
+
+<div class="chart">
+
+<div id="tradingview" style="height:100%;"></div>
+
 </div>
 
-</section>
+<!-- TRADE PANEL -->
 
-<!-- TRADE -->
+<div class="trade">
 
-<section id="trade">
-
-<div class="card">
-
-<h3>Crypto Trading</h3>
+<h3>Trade</h3>
 
 <select>
 <option>BTC/USDT</option>
 <option>ETH/USDT</option>
 </select>
 
-<input placeholder="Enter Amount">
+<input placeholder="Price">
 
-<button class="main">Buy</button>
-<button class="main">Sell</button>
+<input placeholder="Amount">
 
-</div>
+<button class="buy">Buy</button>
 
-</section>
-
-<!-- INVEST -->
-
-<section id="invest">
-
-<div class="card">
-
-<h3>Profit Calculator</h3>
-
-<input id="amount" placeholder="Enter Investment">
-
-<button class="main" onclick="profit()">Calculate</button>
-
-<p id="result"></p>
+<button class="sell">Sell</button>
 
 </div>
-
-</section>
-
-<!-- DEPOSIT -->
-
-<section id="deposit">
-
-<div class="card">
-
-<h3>Deposit Funds</h3>
-
-<select>
-<option>UPI</option>
-<option>Bank Transfer</option>
-</select>
-
-<input placeholder="Enter Amount">
-
-<p>UPI ID: versustrade@upi</p>
-
-<button class="main">Submit Deposit</button>
-
-</div>
-
-</section>
-
-<!-- ACCOUNT -->
-
-<section id="account">
-
-<div class="card">
-
-<h3>Login</h3>
-
-<input placeholder="Email">
-
-<input placeholder="Password" type="password">
-
-<button class="main">Login</button>
-
-</div>
-
-<div class="card">
-
-<h3>Register</h3>
-
-<input placeholder="Name">
-
-<input placeholder="Email">
-
-<input placeholder="Password">
-
-<button class="main">Register</button>
-
-</div>
-
-</section>
-
-<!-- FOOTER -->
-
-<div class="footer">
-
-<a class="support whatsapp" href="https://wa.me/919999999999">
-WhatsApp Support
-</a>
-
-<a class="support call" href="tel:+919999999999">
-Call Support
-</a>
 
 </div>
 
 <script>
 
-/* PAGE SWITCH */
-
-function openPage(page){
-
-let pages=document.querySelectorAll("section");
-
-pages.forEach(p=>p.classList.remove("active"));
-
-document.getElementById(page).classList.add("active");
-
-}
-
-/* PROFIT CALCULATOR */
-
-function profit(){
-
-let a=document.getElementById("amount").value;
-
-let p=a*0.03;
-
-document.getElementById("result").innerHTML="Daily Profit ₹ "+p;
-
-}
-
-/* CRYPTO PRICE */
-
-async function price(){
-
-let res=await fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,tether&vs_currencies=usd");
-
-let data=await res.json();
-
-btc.innerHTML=data.bitcoin.usd;
-eth.innerHTML=data.ethereum.usd;
-usdt.innerHTML=data.tether.usd;
-
-}
-
-price();
-setInterval(price,10000);
+new TradingView.widget({
+"container_id":"tradingview",
+"symbol":"BINANCE:BTCUSDT",
+"interval":"5",
+"theme":"dark",
+"style":"1",
+"locale":"en",
+"toolbar_bg":"#f1f3f6",
+"enable_publishing":false,
+"hide_side_toolbar":false,
+"allow_symbol_change":true,
+"height":"100%"
+});
 
 </script>
 
