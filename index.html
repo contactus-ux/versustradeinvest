@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Versus Trade Invest</title>
 
 <style>
@@ -14,31 +15,57 @@ background:#0f172a;
 color:white;
 }
 
+/* HEADER */
+
 header{
 background:#020617;
 padding:15px;
-text-align:center;
-font-size:22px;
+display:flex;
+align-items:center;
+justify-content:center;
+gap:10px;
+}
+
+.logo{
+width:35px;
+height:35px;
+background:#22c55e;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
 font-weight:bold;
 }
+
+.title{
+font-size:20px;
+font-weight:bold;
+}
+
+/* NAV */
 
 nav{
 display:flex;
 justify-content:space-around;
 background:#020617;
 padding:10px;
+position:sticky;
+top:0;
 }
 
 nav button{
 background:#1e293b;
 border:none;
 color:white;
-padding:10px 15px;
+padding:10px;
 border-radius:6px;
+font-size:14px;
 }
 
+/* SECTIONS */
+
 section{
-padding:20px;
+padding:15px;
 display:none;
 }
 
@@ -46,12 +73,16 @@ display:none;
 display:block;
 }
 
+/* CARDS */
+
 .card{
 background:#1e293b;
 padding:15px;
 border-radius:10px;
 margin-bottom:15px;
 }
+
+/* INPUTS */
 
 input,select{
 width:100%;
@@ -61,7 +92,9 @@ border-radius:6px;
 border:none;
 }
 
-button.main{
+/* BUTTON */
+
+.main{
 background:#22c55e;
 color:white;
 padding:12px;
@@ -71,10 +104,14 @@ width:100%;
 margin-top:10px;
 }
 
+/* PRICE */
+
 .price{
 font-size:18px;
 margin-top:10px;
 }
+
+/* FOOTER */
 
 .footer{
 text-align:center;
@@ -82,23 +119,17 @@ padding:20px;
 background:#020617;
 }
 
-.whatsapp{
-background:#25D366;
+.support{
+display:inline-block;
 padding:10px;
+margin:5px;
 border-radius:6px;
 color:white;
-display:inline-block;
-margin:5px;
+text-decoration:none;
 }
 
-.call{
-background:#3b82f6;
-padding:10px;
-border-radius:6px;
-color:white;
-display:inline-block;
-margin:5px;
-}
+.whatsapp{background:#25D366;}
+.call{background:#3b82f6;}
 
 </style>
 </head>
@@ -106,7 +137,8 @@ margin:5px;
 <body>
 
 <header>
-Versus Trade Invest
+<div class="logo">VT</div>
+<div class="title">Versus Trade Invest</div>
 </header>
 
 <nav>
@@ -122,7 +154,7 @@ Versus Trade Invest
 <section id="home" class="active">
 
 <div class="card">
-<h3>Live Crypto Prices</h3>
+<h3>Live Crypto Market</h3>
 
 <div class="price">BTC: $<span id="btc"></span></div>
 <div class="price">ETH: $<span id="eth"></span></div>
@@ -132,7 +164,7 @@ Versus Trade Invest
 
 <div class="card">
 <h3>Investment Plan</h3>
-<p>Invest ₹1,00,000 → Daily Profit 3%</p>
+<p>Invest ₹1,00,000 → Earn 3% Daily Profit</p>
 </div>
 
 </section>
@@ -167,11 +199,11 @@ Versus Trade Invest
 
 <h3>Profit Calculator</h3>
 
-<input id="investAmount" placeholder="Enter Amount">
+<input id="amount" placeholder="Enter Investment">
 
-<button class="main" onclick="calcProfit()">Calculate Profit</button>
+<button class="main" onclick="profit()">Calculate</button>
 
-<div id="profitResult"></div>
+<p id="result"></p>
 
 </div>
 
@@ -183,7 +215,7 @@ Versus Trade Invest
 
 <div class="card">
 
-<h3>Deposit via UPI / Bank</h3>
+<h3>Deposit Funds</h3>
 
 <select>
 <option>UPI</option>
@@ -192,7 +224,7 @@ Versus Trade Invest
 
 <input placeholder="Enter Amount">
 
-<p>UPI ID: yourupi@bank</p>
+<p>UPI ID: versustrade@upi</p>
 
 <button class="main">Submit Deposit</button>
 
@@ -232,15 +264,23 @@ Versus Trade Invest
 
 </section>
 
+<!-- FOOTER -->
+
 <div class="footer">
 
-<a class="whatsapp" href="https://wa.me/919999999999">WhatsApp</a>
+<a class="support whatsapp" href="https://wa.me/919999999999">
+WhatsApp Support
+</a>
 
-<a class="call" href="tel:+919999999999">Call</a>
+<a class="support call" href="tel:+919999999999">
+Call Support
+</a>
 
 </div>
 
 <script>
+
+/* PAGE SWITCH */
 
 function openPage(page){
 
@@ -252,34 +292,34 @@ document.getElementById(page).classList.add("active");
 
 }
 
-function calcProfit(){
+/* PROFIT CALCULATOR */
 
-let amount=document.getElementById("investAmount").value;
+function profit(){
 
-let profit=amount*0.03;
+let a=document.getElementById("amount").value;
 
-document.getElementById("profitResult").innerHTML=
-"Daily Profit: ₹"+profit;
+let p=a*0.03;
+
+document.getElementById("result").innerHTML="Daily Profit ₹ "+p;
 
 }
 
-async function prices(){
+/* CRYPTO PRICE */
+
+async function price(){
 
 let res=await fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,tether&vs_currencies=usd");
 
 let data=await res.json();
 
 btc.innerHTML=data.bitcoin.usd;
-
 eth.innerHTML=data.ethereum.usd;
-
 usdt.innerHTML=data.tether.usd;
 
 }
 
-prices();
-
-setInterval(prices,10000);
+price();
+setInterval(price,10000);
 
 </script>
 
