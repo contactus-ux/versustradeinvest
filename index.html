@@ -1,10 +1,9 @@
 ```html
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Crypto Mobile Trading</title>
+<title>Versus Trade Invest</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
 
@@ -42,8 +41,7 @@ margin-bottom:15px;
 input,select{
 width:100%;
 padding:10px;
-margin-top:5px;
-margin-bottom:10px;
+margin:5px 0;
 border:none;
 border-radius:6px;
 }
@@ -84,26 +82,65 @@ font-size:14px;
 height:300px;
 }
 
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+td,th{
+padding:8px;
+border:1px solid #334155;
+}
+
+.whatsapp{
+position:fixed;
+bottom:70px;
+right:15px;
+background:#25D366;
+padding:15px;
+border-radius:50%;
+color:white;
+text-decoration:none;
+}
+
+.call{
+position:fixed;
+bottom:70px;
+left:15px;
+background:#2563eb;
+padding:15px;
+border-radius:50%;
+color:white;
+text-decoration:none;
+}
+
 </style>
 </head>
 
 <body>
 
-<header>Crypto Trading App</header>
+<header>Versus Trade Invest</header>
 
 <!-- HOME -->
 
 <div id="home" class="page active">
 
 <div class="card">
+
 <h3>Welcome</h3>
-<p>Mobile Crypto Trading Platform</p>
+
+<p>Trade crypto charts and invest easily</p>
+
 </div>
 
 <div class="card">
+
 <div class="balance">
+
 Wallet Balance ₹ <span id="balance">0</span>
+
 </div>
+
 </div>
 
 </div>
@@ -113,36 +150,67 @@ Wallet Balance ₹ <span id="balance">0</span>
 <div id="trade" class="page">
 
 <div class="card">
-<h3>Market Chart</h3>
+
+<h3>Live Market</h3>
+
 <div id="chart" class="chart"></div>
+
 </div>
 
 <div class="card">
 
 <h3>Trade</h3>
 
-<label>Pair</label>
-
 <select id="pair">
+
 <option>BTC/USDT</option>
 <option>ETH/USDT</option>
 <option>BNB/USDT</option>
-</select>
 
-<label>Type</label>
+</select>
 
 <select id="type">
+
 <option>BUY</option>
 <option>SELL</option>
+
 </select>
 
-<label>Amount ₹</label>
-
-<input type="number" id="amount">
+<input type="number" id="tradeAmount" placeholder="Amount ₹">
 
 <button onclick="trade()">Execute Trade</button>
 
 <p id="tradeMsg"></p>
+
+</div>
+
+</div>
+
+<!-- DEPOSIT -->
+
+<div id="deposit" class="page">
+
+<div class="card">
+
+<h3>Deposit</h3>
+
+<select id="payment">
+
+<option value="">Select Payment</option>
+<option value="upi">UPI</option>
+<option value="bank">Bank Transfer</option>
+
+</select>
+
+<div id="paymentDetails"></div>
+
+<input type="number" id="depositAmount" placeholder="Amount ₹">
+
+<input placeholder="UTR / Transaction ID">
+
+<button onclick="deposit()">Submit Deposit</button>
+
+<p id="depMsg"></p>
 
 </div>
 
@@ -162,31 +230,6 @@ Balance ₹ <span id="balance2">0</span>
 
 </div>
 
-<!-- DEPOSIT -->
-
-<div id="deposit" class="page">
-
-<div class="card">
-
-<h3>Deposit</h3>
-
-<select>
-<option>UPI</option>
-<option>Bank Transfer</option>
-</select>
-
-<input type="number" id="depAmount" placeholder="Amount ₹">
-
-<input placeholder="UPI ID / Reference">
-
-<button onclick="deposit()">Submit Deposit</button>
-
-<p id="depMsg"></p>
-
-</div>
-
-</div>
-
 <!-- HISTORY -->
 
 <div id="historyPage" class="page">
@@ -195,7 +238,35 @@ Balance ₹ <span id="balance2">0</span>
 
 <h3>Trade History</h3>
 
-<ul id="history"></ul>
+<table>
+
+<tr>
+<th>Pair</th>
+<th>Type</th>
+<th>Amount</th>
+</tr>
+
+<tbody id="history"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<!-- CALCULATOR -->
+
+<div id="calculator" class="page">
+
+<div class="card">
+
+<h3>Profit Calculator</h3>
+
+<input type="number" id="invest" placeholder="Investment ₹">
+
+<button onclick="calc()">Calculate</button>
+
+<p id="profit"></p>
 
 </div>
 
@@ -209,13 +280,17 @@ Balance ₹ <span id="balance2">0</span>
 
 <button onclick="showPage('trade')">Trade</button>
 
-<button onclick="showPage('wallet')">Wallet</button>
-
 <button onclick="showPage('deposit')">Deposit</button>
+
+<button onclick="showPage('wallet')">Wallet</button>
 
 <button onclick="showPage('historyPage')">History</button>
 
 </div>
+
+<a class="whatsapp" href="https://wa.me/919876543210">W</a>
+
+<a class="call" href="tel:+919876543210">C</a>
 
 <script src="https://s3.tradingview.com/tv.js"></script>
 
@@ -223,19 +298,29 @@ Balance ₹ <span id="balance2">0</span>
 
 let balance=0;
 
-function showPage(page){
+function showPage(p){
 
 let pages=document.querySelectorAll(".page");
 
-pages.forEach(p=>p.classList.remove("active"));
+pages.forEach(x=>x.classList.remove("active"));
 
-document.getElementById(page).classList.add("active");
+document.getElementById(p).classList.add("active");
 
 }
 
+new TradingView.widget({
+symbol:"BINANCE:BTCUSDT",
+interval:"15",
+theme:"dark",
+style:"1",
+width:"100%",
+height:300,
+container_id:"chart"
+});
+
 function deposit(){
 
-let amt=parseFloat(document.getElementById("depAmount").value);
+let amt=parseFloat(document.getElementById("depositAmount").value);
 
 if(!amt)return;
 
@@ -245,13 +330,13 @@ document.getElementById("balance").innerText=balance;
 
 document.getElementById("balance2").innerText=balance;
 
-document.getElementById("depMsg").innerText="Deposit successful";
+document.getElementById("depMsg").innerText="Deposit Request Submitted";
 
 }
 
 function trade(){
 
-let amt=parseFloat(document.getElementById("amount").value);
+let amt=parseFloat(document.getElementById("tradeAmount").value);
 
 let pair=document.getElementById("pair").value;
 
@@ -271,26 +356,40 @@ document.getElementById("balance").innerText=balance;
 
 document.getElementById("balance2").innerText=balance;
 
-let msg=type+" "+pair+" ₹"+amt;
+let row="<tr><td>"+pair+"</td><td>"+type+"</td><td>"+amt+"</td></tr>";
 
-let li=document.createElement("li");
-
-li.innerText=msg;
-
-document.getElementById("history").appendChild(li);
+document.getElementById("history").innerHTML+=row;
 
 document.getElementById("tradeMsg").innerText="Trade Executed";
 
 }
 
-new TradingView.widget({
-"width":"100%",
-"height":300,
-"symbol":"BINANCE:BTCUSDT",
-"interval":"5",
-"theme":"dark",
-"style":"1",
-"container_id":"chart"
+function calc(){
+
+let a=document.getElementById("invest").value;
+
+let p=a*0.03;
+
+document.getElementById("profit").innerText="Daily Profit ₹"+p;
+
+}
+
+document.getElementById("payment").addEventListener("change",function(){
+
+let d=document.getElementById("paymentDetails");
+
+if(this.value=="upi"){
+
+d.innerHTML="<p>UPI ID: versustrade@upi</p>";
+
+}
+
+else if(this.value=="bank"){
+
+d.innerHTML="<p>Bank: HDFC Bank<br>Account: 1234567890<br>IFSC: HDFC0001234</p>";
+
+}
+
 });
 
 </script>
