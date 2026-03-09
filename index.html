@@ -1,15 +1,15 @@
-```html
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Versus Trade Invest</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
 
 body{
-font-family:Arial;
 margin:0;
+font-family:Arial;
 background:#0f172a;
 color:white;
 }
@@ -17,102 +17,87 @@ color:white;
 header{
 background:#020617;
 padding:15px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-flex-wrap:wrap;
+text-align:center;
+font-size:22px;
+font-weight:bold;
 }
 
-nav a{
+nav{
+display:flex;
+justify-content:space-around;
+background:#020617;
+padding:10px;
+}
+
+nav button{
+background:#1e293b;
+border:none;
 color:white;
-margin:10px;
-text-decoration:none;
-font-size:16px;
+padding:10px 15px;
+border-radius:6px;
 }
 
 section{
-padding:40px 20px;
-text-align:center;
-}
-
-.btn{
-background:#22c55e;
-padding:12px 20px;
-border:none;
-border-radius:6px;
-color:white;
-cursor:pointer;
-}
-
-.sell{background:#ef4444;}
-
-.plans{
-display:flex;
-justify-content:center;
-flex-wrap:wrap;
-}
-
-.plan{
-background:#1e293b;
 padding:20px;
-margin:15px;
+display:none;
+}
+
+.active{
+display:block;
+}
+
+.card{
+background:#1e293b;
+padding:15px;
 border-radius:10px;
-width:250px;
+margin-bottom:15px;
 }
 
 input,select{
+width:100%;
 padding:10px;
-margin:6px;
+margin-top:10px;
 border-radius:6px;
 border:none;
-width:250px;
 }
 
-.walletBox{
-background:#1e293b;
-padding:20px;
-border-radius:10px;
-width:300px;
-margin:auto;
+button.main{
+background:#22c55e;
+color:white;
+padding:12px;
+border:none;
+border-radius:8px;
+width:100%;
+margin-top:10px;
 }
 
-table{
-margin:auto;
-border-collapse:collapse;
+.price{
+font-size:18px;
+margin-top:10px;
 }
 
-td,th{
-border:1px solid #334155;
-padding:10px;
-}
-
-footer{
-background:#020617;
-padding:20px;
+.footer{
 text-align:center;
-margin-top:40px;
+padding:20px;
+background:#020617;
 }
 
 .whatsapp{
-position:fixed;
-bottom:20px;
-right:20px;
 background:#25D366;
-padding:15px;
-border-radius:50%;
+padding:10px;
+border-radius:6px;
 color:white;
-text-decoration:none;
+display:inline-block;
+margin:5px;
 }
 
 .call{
-position:fixed;
-bottom:20px;
-left:20px;
-background:#2563eb;
-padding:15px;
-border-radius:50%;
+background:#3b82f6;
+padding:10px;
+border-radius:6px;
 color:white;
-text-decoration:none;
+display:inline-block;
+margin:5px;
 }
 
 </style>
@@ -121,272 +106,182 @@ text-decoration:none;
 <body>
 
 <header>
-
-<h2>Versus Trade Invest</h2>
-
-<nav>
-
-<a href="#home">Home</a>
-<a href="#trade">Trade</a>
-<a href="#deposit">Deposit</a>
-<a href="#withdraw">Withdraw</a>
-<a href="#wallet">Wallet</a>
-
-</nav>
-
+Versus Trade Invest
 </header>
 
-<section id="home">
+<nav>
+<button onclick="openPage('home')">Home</button>
+<button onclick="openPage('trade')">Trade</button>
+<button onclick="openPage('invest')">Invest</button>
+<button onclick="openPage('deposit')">Deposit</button>
+<button onclick="openPage('account')">Account</button>
+</nav>
 
-<h1>Welcome to Versus Trade Invest</h1>
-<p>Trade crypto charts and grow your investment</p>
+<!-- HOME -->
 
-<div class="walletBox">
-Wallet Balance ₹ <span id="balance">0</span>
+<section id="home" class="active">
+
+<div class="card">
+<h3>Live Crypto Prices</h3>
+
+<div class="price">BTC: $<span id="btc"></span></div>
+<div class="price">ETH: $<span id="eth"></span></div>
+<div class="price">USDT: $<span id="usdt"></span></div>
+
+</div>
+
+<div class="card">
+<h3>Investment Plan</h3>
+<p>Invest ₹1,00,000 → Daily Profit 3%</p>
 </div>
 
 </section>
 
+<!-- TRADE -->
+
 <section id="trade">
 
-<h2>Crypto Market</h2>
+<div class="card">
 
-<div id="chart"></div>
+<h3>Crypto Trading</h3>
 
-<br>
-
-<select id="pair">
+<select>
 <option>BTC/USDT</option>
 <option>ETH/USDT</option>
-<option>BNB/USDT</option>
 </select>
 
-<br>
+<input placeholder="Enter Amount">
 
-<input type="number" id="tradeAmount" placeholder="Trade Amount ₹">
+<button class="main">Buy</button>
+<button class="main">Sell</button>
 
-<br>
-
-<button class="btn" onclick="trade('BUY')">Buy</button>
-
-<button class="btn sell" onclick="trade('SELL')">Sell</button>
-
-<p id="tradeMsg"></p>
+</div>
 
 </section>
+
+<!-- INVEST -->
+
+<section id="invest">
+
+<div class="card">
+
+<h3>Profit Calculator</h3>
+
+<input id="investAmount" placeholder="Enter Amount">
+
+<button class="main" onclick="calcProfit()">Calculate Profit</button>
+
+<div id="profitResult"></div>
+
+</div>
+
+</section>
+
+<!-- DEPOSIT -->
 
 <section id="deposit">
 
-<h2>Deposit Funds</h2>
+<div class="card">
 
-<select id="payment">
+<h3>Deposit via UPI / Bank</h3>
 
-<option value="">Select Method</option>
-<option value="upi">UPI</option>
-<option value="bank">Bank Transfer</option>
-
+<select>
+<option>UPI</option>
+<option>Bank Transfer</option>
 </select>
 
-<div id="paymentInfo"></div>
+<input placeholder="Enter Amount">
 
-<br>
+<p>UPI ID: yourupi@bank</p>
 
-<input type="number" id="depAmount" placeholder="Deposit Amount">
+<button class="main">Submit Deposit</button>
 
-<br>
-
-<input type="text" placeholder="Transaction ID">
-
-<br><br>
-
-<button class="btn" onclick="deposit()">Submit Deposit</button>
-
-<p id="depMsg"></p>
+</div>
 
 </section>
 
-<section id="withdraw">
+<!-- ACCOUNT -->
 
-<h2>Withdraw Request</h2>
+<section id="account">
 
-<input type="number" id="withAmount" placeholder="Withdraw Amount">
+<div class="card">
 
-<br>
+<h3>Login</h3>
 
-<input type="text" placeholder="UPI / Bank Details">
+<input placeholder="Email">
 
-<br><br>
+<input placeholder="Password" type="password">
 
-<button class="btn" onclick="withdraw()">Request Withdraw</button>
+<button class="main">Login</button>
 
-<p id="withMsg"></p>
+</div>
 
-</section>
+<div class="card">
 
-<section id="wallet">
+<h3>Register</h3>
 
-<h2>Transaction History</h2>
+<input placeholder="Name">
 
-<table>
+<input placeholder="Email">
 
-<tr>
-<th>Date</th>
-<th>Type</th>
-<th>Amount</th>
-</tr>
+<input placeholder="Password">
 
-<tbody id="history"></tbody>
+<button class="main">Register</button>
 
-</table>
+</div>
 
 </section>
 
-<section>
+<div class="footer">
 
-<h2>Profit Calculator</h2>
+<a class="whatsapp" href="https://wa.me/919999999999">WhatsApp</a>
 
-<input type="number" id="invest" placeholder="Investment Amount">
+<a class="call" href="tel:+919999999999">Call</a>
 
-<br>
-
-<button class="btn" onclick="calc()">Calculate</button>
-
-<p id="profit"></p>
-
-</section>
-
-<footer>
-
-<p>Call: +91 9876543210</p>
-<p>WhatsApp: +91 9876543210</p>
-<p>© 2026 Versus Trade Invest</p>
-
-</footer>
-
-<a class="whatsapp" href="https://wa.me/919876543210">W</a>
-<a class="call" href="tel:+919876543210">C</a>
-
-<script src="https://s3.tradingview.com/tv.js"></script>
+</div>
 
 <script>
 
-let balance=0;
+function openPage(page){
 
-new TradingView.widget({
-symbol:"BINANCE:BTCUSDT",
-interval:"15",
-theme:"dark",
-style:"1",
-width:"100%",
-height:450,
-container_id:"chart"
-});
+let pages=document.querySelectorAll("section");
 
-function deposit(){
+pages.forEach(p=>p.classList.remove("active"));
 
-let amt=parseFloat(document.getElementById("depAmount").value);
-
-if(!amt)return;
-
-balance+=amt;
-
-updateWallet();
-
-addHistory("Deposit",amt);
-
-document.getElementById("depMsg").innerText="Deposit submitted";
+document.getElementById(page).classList.add("active");
 
 }
 
-function withdraw(){
+function calcProfit(){
 
-let amt=parseFloat(document.getElementById("withAmount").value);
+let amount=document.getElementById("investAmount").value;
 
-if(amt>balance){
+let profit=amount*0.03;
 
-document.getElementById("withMsg").innerText="Insufficient balance";
-
-return;
-
-}
-
-balance-=amt;
-
-updateWallet();
-
-addHistory("Withdraw",amt);
-
-document.getElementById("withMsg").innerText="Withdraw request submitted";
+document.getElementById("profitResult").innerHTML=
+"Daily Profit: ₹"+profit;
 
 }
 
-function trade(type){
+async function prices(){
 
-let amt=parseFloat(document.getElementById("tradeAmount").value);
+let res=await fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,tether&vs_currencies=usd");
 
-if(amt>balance){
+let data=await res.json();
 
-document.getElementById("tradeMsg").innerText="Insufficient balance";
+btc.innerHTML=data.bitcoin.usd;
 
-return;
+eth.innerHTML=data.ethereum.usd;
 
-}
-
-balance-=amt;
-
-updateWallet();
-
-addHistory(type+" Trade",amt);
-
-document.getElementById("tradeMsg").innerText="Trade executed";
+usdt.innerHTML=data.tether.usd;
 
 }
 
-function updateWallet(){
+prices();
 
-document.getElementById("balance").innerText=balance;
-
-}
-
-function addHistory(type,amt){
-
-let row="<tr><td>"+new Date().toLocaleDateString()+"</td><td>"+type+"</td><td>"+amt+"</td></tr>";
-
-document.getElementById("history").innerHTML+=row;
-
-}
-
-function calc(){
-
-let a=document.getElementById("invest").value;
-
-let p=a*0.03;
-
-document.getElementById("profit").innerText="Daily Profit ₹"+p;
-
-}
-
-document.getElementById("payment").addEventListener("change",function(){
-
-let d=document.getElementById("paymentInfo");
-
-if(this.value=="upi"){
-
-d.innerHTML="<p>UPI ID: versustrade@upi</p>";
-
-}
-
-else if(this.value=="bank"){
-
-d.innerHTML="<p>Bank: HDFC Bank<br>Account: 1234567890<br>IFSC: HDFC0001234</p>";
-
-}
-
-});
+setInterval(prices,10000);
 
 </script>
 
 </body>
 </html>
-```
-
