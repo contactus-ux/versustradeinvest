@@ -1,180 +1,307 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Versus Trade Invest</title>
-
-<script src="https://s3.tradingview.com/tv.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
 
 body{
-margin:0;
-background:#0b0e11;
-color:white;
 font-family:Arial;
+margin:0;
+background:#0f172a;
+color:white;
 }
 
 header{
-background:#111;
-padding:15px;
+background:#020617;
+padding:20px;
 display:flex;
 justify-content:space-between;
+align-items:center;
 }
 
-.logo{
-font-weight:bold;
-font-size:20px;
-}
-
-nav span{
+nav a{
+color:white;
 margin:10px;
+text-decoration:none;
+font-size:18px;
+}
+
+.hero{
+text-align:center;
+padding:60px;
+}
+
+.btn{
+background:#22c55e;
+padding:12px 20px;
+border-radius:5px;
+text-decoration:none;
+color:white;
 cursor:pointer;
 }
 
-.container{
-display:grid;
-grid-template-columns:200px 1fr 300px;
-height:90vh;
+.plan{
+background:#1e293b;
+padding:20px;
+margin:20px;
+border-radius:10px;
+width:250px;
+text-align:center;
 }
 
-/* MARKET */
+.plans{
+display:flex;
+justify-content:center;
+flex-wrap:wrap;
+}
 
-.market{
-background:#111;
+section{
+padding:40px;
+}
+
+footer{
+background:#020617;
+text-align:center;
+padding:20px;
+margin-top:40px;
+}
+
+input,select{
 padding:10px;
-overflow:auto;
+margin:5px;
 }
 
-.market div{
-padding:10px;
-border-bottom:1px solid #333;
-}
-
-/* CHART */
-
-.chart{
-background:#000;
-}
-
-/* TRADE PANEL */
-
-.trade{
-background:#111;
+.whatsapp{
+position:fixed;
+bottom:20px;
+right:20px;
+background:#25D366;
 padding:15px;
+border-radius:50%;
 }
 
-input{
-width:100%;
-padding:10px;
-margin-top:10px;
-border:none;
-border-radius:5px;
-}
-
-.buy{
-background:#16c784;
-color:white;
-padding:10px;
-width:100%;
-margin-top:10px;
-border:none;
-}
-
-.sell{
-background:#ea3943;
-color:white;
-padding:10px;
-width:100%;
-margin-top:10px;
-border:none;
+.call{
+position:fixed;
+bottom:20px;
+left:20px;
+background:#2563eb;
+padding:15px;
+border-radius:50%;
 }
 
 </style>
+
 </head>
 
 <body>
 
 <header>
 
-<div class="logo">
-Versus Trade Invest
-</div>
+<h2>Versus Trade Invest</h2>
 
 <nav>
-<span>Markets</span>
-<span>Trade</span>
-<span>Wallet</span>
-<span>Login</span>
+<a href="#">Home</a>
+<a href="#trade">Trade</a>
+<a href="#plans">Plans</a>
+<a href="#deposit">Deposit</a>
+<a href="#wallet">Wallet</a>
 </nav>
 
 </header>
 
-<div class="container">
+<section class="hero">
 
-<!-- MARKET LIST -->
+<h1>Crypto Trading Platform</h1>
+<p>Trade and invest in BTC / ETH / USDT</p>
 
-<div class="market">
+<a class="btn" href="#deposit">Start Investment</a>
 
-<h3>Markets</h3>
+</section>
 
-<div>BTC/USDT</div>
-<div>ETH/USDT</div>
-<div>SOL/USDT</div>
-<div>XRP/USDT</div>
+<section id="trade">
 
-</div>
+<h2 style="text-align:center;">Crypto Trading</h2>
 
-<!-- CHART -->
+<div style="text-align:center">
 
-<div class="chart">
-
-<div id="tradingview" style="height:100%;"></div>
-
-</div>
-
-<!-- TRADE PANEL -->
-
-<div class="trade">
-
-<h3>Trade</h3>
-
-<select>
-<option>BTC/USDT</option>
-<option>ETH/USDT</option>
+<select id="pair" onchange="changePair()">
+<option value="BINANCE:BTCUSDT">BTC / USDT</option>
+<option value="BINANCE:ETHUSDT">ETH / USDT</option>
+<option value="BINANCE:BNBUSDT">BNB / USDT</option>
 </select>
 
-<input placeholder="Price">
-
-<input placeholder="Amount">
-
-<button class="buy">Buy</button>
-
-<button class="sell">Sell</button>
-
 </div>
 
-</div>
+<div id="chart"></div>
+
+<script src="https://s3.tradingview.com/tv.js"></script>
 
 <script>
 
+function loadChart(pair){
+
+document.getElementById("chart").innerHTML="";
+
 new TradingView.widget({
-"container_id":"tradingview",
-"symbol":"BINANCE:BTCUSDT",
-"interval":"5",
-"theme":"dark",
-"style":"1",
-"locale":"en",
-"toolbar_bg":"#f1f3f6",
-"enable_publishing":false,
-"hide_side_toolbar":false,
-"allow_symbol_change":true,
-"height":"100%"
+symbol:pair,
+interval:"15",
+theme:"dark",
+style:"1",
+width:"100%",
+height:500,
+container_id:"chart"
 });
+
+}
+
+function changePair(){
+
+let pair=document.getElementById("pair").value;
+loadChart(pair);
+
+}
+
+loadChart("BINANCE:BTCUSDT");
+
+</script>
+
+</section>
+
+<section id="plans">
+
+<h2 style="text-align:center;">Investment Plans</h2>
+
+<div class="plans">
+
+<div class="plan">
+
+<h3>Starter</h3>
+<p>Investment ₹10,000</p>
+<p>Daily Profit 1%</p>
+<a class="btn" href="#deposit">Invest</a>
+
+</div>
+
+<div class="plan">
+
+<h3>Pro</h3>
+<p>Investment ₹50,000</p>
+<p>Daily Profit 2%</p>
+<a class="btn" href="#deposit">Invest</a>
+
+</div>
+
+<div class="plan">
+
+<h3>VIP</h3>
+<p>Investment ₹1,00,000</p>
+<p>Daily Profit 3%</p>
+<a class="btn" href="#deposit">Invest</a>
+
+</div>
+
+</div>
+
+</section>
+
+<section id="deposit">
+
+<h2 style="text-align:center;">Deposit Crypto</h2>
+
+<div style="text-align:center">
+
+<select>
+
+<option>Bitcoin (BTC)</option>
+<option>Ethereum (ETH)</option>
+<option>Tether (USDT)</option>
+
+</select>
+
+<br>
+
+<input type="number" placeholder="Enter Amount">
+
+<br>
+
+<input type="text" placeholder="Enter Wallet Address">
+
+<br>
+
+<button class="btn">Submit Deposit</button>
+
+</div>
+
+</section>
+
+<section style="text-align:center;">
+
+<h2>Profit Calculator</h2>
+
+<input type="number" id="amount" placeholder="Enter Amount">
+
+<button onclick="calc()">Calculate</button>
+
+<p id="result"></p>
+
+</section>
+
+<section id="wallet" style="text-align:center;">
+
+<h2>Wallet</h2>
+
+<p>Balance: ₹0</p>
+
+<table border="1" style="margin:auto">
+
+<tr>
+<th>Date</th>
+<th>Type</th>
+<th>Amount</th>
+</tr>
+
+<tr>
+<td>--</td>
+<td>Deposit</td>
+<td>0</td>
+</tr>
+
+</table>
+
+</section>
+
+<footer>
+
+<p>Contact Us</p>
+
+<p>Call: +91 9876543210</p>
+<p>WhatsApp: +91 9876543210</p>
+
+<p>© 2026 Versus Trade Invest</p>
+
+</footer>
+
+<a class="whatsapp" href="https://wa.me/919876543210">W</a>
+<a class="call" href="tel:+919876543210">C</a>
+
+<script>
+
+function calc(){
+
+let amt=document.getElementById("amount").value;
+
+let profit=amt*0.03;
+
+document.getElementById("result").innerHTML=
+"Daily Profit = ₹"+profit;
+
+}
 
 </script>
 
 </body>
+
 </html>
